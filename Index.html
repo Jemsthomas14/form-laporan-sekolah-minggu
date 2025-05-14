@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Pengembalian Laporan Hasil Belajar Sekolah Minggu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5faff;
+      padding: 20px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2c5d8a;
+    }
+
+    label {
+      margin-top: 10px;
+      display: block;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #2c5d8a;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1e3f63;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Form Pengembalian Laporan Hasil Belajar</h2>
+
+  <form id="pengembalianForm">
+    <label>Nama Anak:</label>
+    <input type="text" name="nama_anak" required>
+
+    <label>Nama Orang Tua / Wali:</label>
+    <input type="text" name="nama_ortu" required>
+
+    <label>Kelas Sekolah Minggu:</label>
+    <select name="kelas" required>
+      <option value="">-- Pilih Kelas --</option>
+      <option value="Balita">Balita</option>
+      <option value="Anak">Anak</option>
+      <option value="Remaja">Remaja</option>
+    </select>
+
+    <label>Status Pengembalian:</label>
+    <select name="status" required>
+      <option value="Sudah diterima dan dibaca">Sudah diterima dan dibaca</option>
+      <option value="Belum menerima laporan">Belum menerima laporan</option>
+    </select>
+
+    <label>Catatan / Tanggapan:</label>
+    <textarea name="catatan" rows="4" placeholder="(Opsional) Masukan dari orang tua..."></textarea>
+
+    <label>Tanggal Pengisian:</label>
+    <input type="date" name="tanggal" required>
+
+    <button type="submit">Kirim Pengembalian</button>
+  </form>
+
+  <script>
+    document.getElementById("pengembalianForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = {
+        nama_anak: form.nama_anak.value,
+        nama_ortu: form.nama_ortu.value,
+        kelas: form.kelas.value,
+        status: form.status.value,
+        catatan: form.catatan.value,
+        tanggal: form.tanggal.value
+      };
+
+      fetch("https://script.google.com/macros/s/AKfycbzBOwAGQj6BNJkISpGPMa7beoKKTuaiY-ibrrEXg21YevQsQR4h71hepPNAjOjhzUJQEQ/exec", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
+      .then(response => response.text())
+      .then(result => {
+        alert("Pengembalian berhasil dikirim!");
+        form.reset();
+      })
+      .catch(error => {
+        alert("Gagal mengirim: " + error);
+      });
+    });
+  </script>
+
+</body>
+</html>
